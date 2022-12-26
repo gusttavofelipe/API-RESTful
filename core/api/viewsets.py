@@ -4,5 +4,9 @@ from .serializers import PontosTuristicoSerializer
 
 
 class PontoTuristicoViewSet(ModelViewSet):
-    queryset = PontoTuristico.objects.all()
+    # queryset = PontoTuristico.objects.filter(aprovado=True)
     serializer_class = PontosTuristicoSerializer
+
+    def get_queryset(self):
+        return PontoTuristico.objects.filter(aprovado=True)    
+    

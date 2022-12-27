@@ -24,7 +24,7 @@ from comentarios.api.viewsets import ComentarioViewSet
 from avaliacoes.api.viewsets import AvalicaoViewSet
 
 router = routers.DefaultRouter() # criando rota
-router.register(r'pontoturistico', PontoTuristicoViewSet, basename='PontoTuristico') # registrando rota
+router.register(r'pontosturisticos', PontoTuristicoViewSet, basename='PontoTuristico') # registrando rota
 router.register(r'atracoes', RecursoViewSet) # registrando rota
 router.register(r'enderecos',  EnderecoViewSet) # registrando rota
 router.register(r'comentarios',  ComentarioViewSet) # registrando rota

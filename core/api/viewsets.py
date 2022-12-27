@@ -9,8 +9,12 @@ class PontoTuristicoViewSet(ModelViewSet):
     serializer_class = PontosTuristicoSerializer
 
     def get_queryset(self):
-        return PontoTuristico.objects.filter(aprovado=True)    
+        return PontoTuristico.objects.all()
     
 
-    def list(self, request, *args, **kwargs):
-        return Response({'teste':'list sobrescrito'})
+    # def list(self, request, *args, **kwargs):
+    #     return Response({'teste':'list sobrescrito'})
+
+    
+    # def create(self, request, *args, **kwargs):
+    #     return Response ({'Hello': request.data['visitante']})

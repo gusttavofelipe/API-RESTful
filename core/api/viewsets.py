@@ -1,4 +1,5 @@
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.decorators import action
 from rest_framework.response import Response
 from core.models import PontoTuristico
 from .serializers import PontosTuristicoSerializer
@@ -34,3 +35,15 @@ class PontoTuristicoViewSet(ModelViewSet):
 
     def partial_update(self, request, *args, **kwargs): # atualiza parcialmente/partes de um recurso/objeto 
         return super().partial_update(request, *args, **kwargs)
+
+    
+    @action(methods=['get'], detail=True) 
+    def denounce(self, request, pk=None):
+        '''methods - em quais metodos disparar
+           detail - necessario ou não uma pk na ação da action '''
+        pass
+
+
+    @action(methods=['get'], detail=False)
+    def teste(self, request):
+        pass

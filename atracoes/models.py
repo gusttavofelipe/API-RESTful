@@ -5,6 +5,7 @@ class Recurso(models.Model):
     descricao = models.TextField(verbose_name='Descrição')
     horario_func = models.TextField(verbose_name='Horário de funcionamento')
     idade_minima = models.IntegerField()
+    image = models.ImageField(upload_to='recursos', null=True, blank=True, verbose_name='Imagem')
 
 
     def __str__(self):

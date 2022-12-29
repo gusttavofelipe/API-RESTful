@@ -13,7 +13,8 @@ class PontoTuristicoViewSet(ModelViewSet):
     # search_filter
     filter_backends = [filters.SearchFilter]
     search_fields = ['nome', 'descricao', 'endereco__linha1']
-
+    # lookup_field = '' # substitui id como parametro de busca 
+                          
     def get_queryset(self):
         id = self.request.query_params.get('id', None)
         nome = self.request.query_params.get('nome', None)

@@ -3,11 +3,16 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from core.models import PontoTuristico
 from .serializers import PontosTuristicoSerializer
+from rest_framework import filters
 
 
 class PontoTuristicoViewSet(ModelViewSet):
     # queryset = PontoTuristico.objects.filter(aprovado=True)
     serializer_class = PontosTuristicoSerializer
+
+    # search_filter
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['nome', 'descricao', 'endereco__linha1']
 
     def get_queryset(self):
         id = self.request.query_params.get('id', None)

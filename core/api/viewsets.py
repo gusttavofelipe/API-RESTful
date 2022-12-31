@@ -4,6 +4,8 @@ from rest_framework.response import Response
 from core.models import PontoTuristico
 from .serializers import PontosTuristicoSerializer
 from rest_framework import filters
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
 
 
 class PontoTuristicoViewSet(ModelViewSet):
@@ -14,7 +16,12 @@ class PontoTuristicoViewSet(ModelViewSet):
     filter_backends = [filters.SearchFilter]
     search_fields = ['nome', 'descricao', 'endereco__linha1']
     # lookup_field = '' # substitui id como parametro de busca 
-                          
+
+    # faz a autenticaao do usuario 
+    authentication_classes = [TokenAuthentication]
+    # da permissao ao usuario autenticado
+    permission_classes = [IsAuthenticated]
+                      
     def get_queryset(self):
         id = self.request.query_params.get('id', None)
         nome = self.request.query_params.get('nome', None)

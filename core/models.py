@@ -16,5 +16,14 @@ class PontoTuristico(models.Model):
         )
     image = models.ImageField(upload_to='pontos_turisticos', null=True, blank=True, verbose_name='Imagem')
 
+
+    @property
+    def descricao_completa2(self):
+        # função com nome escolhido para 
+        # o campo decorado com @property,
+        # adicionar em fields do serializer
+        return '%s - %s' % (self.nome, self.descricao)
+
+
     def __str__(self):
         return self.nome

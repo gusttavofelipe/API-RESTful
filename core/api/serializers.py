@@ -5,15 +5,16 @@ from enderecos.api.serializers import EnderecoSerializer
 from comentarios.api.serializers import ComentarioSerializer
 from avaliacoes.api.serializers import AvalicaoSerializer
 from rest_framework.serializers import SerializerMethodField
+from atracoes.models import Recurso
 
 
 class PontosTuristicoSerializer(ModelSerializer):
     # relacoes aninhadas:
     # many=True apenas em relacionamentos ManyToMany
-    endereco = EnderecoSerializer()
-    recurso = RecursoSerializer(many=True) 
-    comentario = ComentarioSerializer(many=True)
-    avalicao = AvalicaoSerializer(many=True)
+    endereco = EnderecoSerializer(read_only=True)
+    recurso = RecursoSerializer(many=True,) 
+    comentario = ComentarioSerializer(many=True, read_only=True)
+    avalicao = AvalicaoSerializer(many=True, read_only=True)
 
     # campo adicional , disponivel apenas para leitura
     descricao_completa = SerializerMethodField()
@@ -26,7 +27,21 @@ class PontosTuristicoSerializer(ModelSerializer):
             'descricao_completa', 'descricao_completa2'
         )
 
-    
+
+    def cria_recursos(self, recursos, ponto) :
+        for recurso in recursos:
+            rec = Recurso.objects.create(**recurso)
+            ponto.recurso.add(rec)
+
+    def create(self, validated_data):
+        recurso = validated_data['recurso']
+        del validated_data['recurso']
+        ponto = PontoTuristico.objects.create(**validated_data)
+        self.cria_recursos(recurso, ponto)
+        
+        return ponto
+
+
         # get + nome do campo adicional
     def get_descricao_completa(self, obj):
         return '%s - %s' % (obj.nome, obj.descricao)

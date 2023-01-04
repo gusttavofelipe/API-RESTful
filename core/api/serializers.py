@@ -7,6 +7,13 @@ from avaliacoes.api.serializers import AvalicaoSerializer
 from rest_framework.serializers import SerializerMethodField
 from atracoes.models import Recurso
 from enderecos.models import Endereco
+from core.models import DocIdentificacao
+
+
+class DocIdentificacaoSerializer(ModelSerializer):
+    class Meta:
+        model = DocIdentificacao
+        fields = ('__all__')
 
 
 class PontosTuristicoSerializer(ModelSerializer):
@@ -16,6 +23,7 @@ class PontosTuristicoSerializer(ModelSerializer):
     recurso = RecursoSerializer(many=True,) 
     comentario = ComentarioSerializer(many=True, read_only=True)
     avalicao = AvalicaoSerializer(many=True, read_only=True)
+    doc_identificacao = DocIdentificacao()
 
     # campo adicional , disponivel apenas para leitura
     descricao_completa = SerializerMethodField()
@@ -25,7 +33,8 @@ class PontosTuristicoSerializer(ModelSerializer):
         fields = (
             'id', 'nome', 'descricao', 'recurso',
             'comentario', 'avalicao', 'endereco', 'image',
-            'descricao_completa', 'descricao_completa2'
+            'descricao_completa', 'descricao_completa2',
+            'doc_identificacao',
         )
 
 
@@ -41,11 +50,17 @@ class PontosTuristicoSerializer(ModelSerializer):
         endereco = validated_data['endereco']
         del validated_data['endereco']
 
+        doc = validated_data['doc_identificacao']
+        del validated_data['doc_identificacao']
+
+        ident = DocIdentificacao.objects.create(**doc)
+
         ponto = PontoTuristico.objects.create(**validated_data)
         self.cria_recursos(recurso, ponto)
 
         end = Endereco.objects.create(**endereco)
         ponto.endereco = end
+        ponto.doc_identificacao = ident
 
         ponto.save() # salvar apos modificação
         return ponto

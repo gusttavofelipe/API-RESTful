@@ -4,6 +4,14 @@ from comentarios.models import Comentario
 from avaliacoes.models import Avalicao
 from enderecos.models import Endereco
 
+
+class DocIdentificacao(models.Model):
+    description = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.description
+
+
 class PontoTuristico(models.Model):
     nome = models.CharField(max_length=150)
     descricao = models.TextField(verbose_name='Descrição')
@@ -15,7 +23,9 @@ class PontoTuristico(models.Model):
         Endereco, on_delete=models.CASCADE, null=True, blank=True
         )
     image = models.ImageField(upload_to='pontos_turisticos', null=True, blank=True, verbose_name='Imagem')
-
+    doc_identificacao = models.OneToOneField(
+        DocIdentificacao, on_delete=models.CASCADE, null=True, blank=True
+        )
 
     @property
     def descricao_completa2(self):

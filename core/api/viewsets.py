@@ -6,6 +6,7 @@ from .serializers import PontosTuristicoSerializer
 from rest_framework import filters
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
+from django.http import HttpResponse
 
 
 class PontoTuristicoViewSet(ModelViewSet):
@@ -38,6 +39,20 @@ class PontoTuristicoViewSet(ModelViewSet):
 
         return queryset
     
+
+    # atrela recursos a pontos turisticos por id
+    @action(methods=['post'], detail=True)
+    def associa_recurso(self, request, pk):
+        recurso = request.data['ids']
+
+        ponto = PontoTuristico.objects.get(id=pk)
+        ponto.recurso.set(recurso)
+
+        ponto.save()
+        return HttpResponse('ok')
+
+
+
 
     # @action(methods=['get'], detail=True) 
     # def denounce(self, request, pk=None):

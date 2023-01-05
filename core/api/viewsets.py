@@ -4,8 +4,8 @@ from rest_framework.response import Response
 from core.models import PontoTuristico
 from .serializers import PontosTuristicoSerializer
 from rest_framework import filters
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.authentication import TokenAuthentication
+# from rest_framework.permissions import IsAuthenticated
+# from rest_framework.authentication import TokenAuthentication
 from django.http import HttpResponse
 
 
@@ -19,9 +19,9 @@ class PontoTuristicoViewSet(ModelViewSet):
     # lookup_field = '' # substitui id como parametro de busca 
 
     # faz a autenticaao do usuario 
-    authentication_classes = [TokenAuthentication]
+    # authentication_classes = [TokenAuthentication]
     # da permissao ao usuario autenticado
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
                       
     def get_queryset(self):
         id = self.request.query_params.get('id', None)

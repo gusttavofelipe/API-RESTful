@@ -6,7 +6,7 @@ from enderecos.models import Endereco
 
 
 class DocIdentificacao(models.Model):
-    description = models.CharField(max_length=100)
+    description = models.CharField(max_length=110)
 
     def __str__(self):
         return self.description
